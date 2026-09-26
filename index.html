@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Studio Engine</title>
     <style>
-        /* === PROFESSIONAL BASE STYLES === */
+        /* === BASE STYLES === */
         :root { --bg-main: #181818; --bg-panel: #202020; --bg-toolbar: #252526; --bg-hover: #2a2d2e; --border: #333333; --text-main: #cccccc; --text-muted: #888888; --accent: #094771; --accent-hover: #0b5a90; --accent-btn: #006eb4; --danger: #cc3333; --success: #28a745; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); overflow: hidden; display: flex; flex-direction: column; height: 100vh; font-size: 13px; }
-        
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-main); }
         ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
@@ -18,7 +17,7 @@
         /* === LAYOUT === */
         #toolbar { height: 40px; background: var(--bg-toolbar); display: flex; align-items: center; padding: 0 10px; gap: 6px; border-bottom: 1px solid var(--border); overflow-x: auto; }
         #main-area { display: flex; flex: 1; height: calc(100vh - 190px); }
-        #left-panel { width: 270px; background: var(--bg-panel); padding: 15px; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        #left-panel { width: 270px; background: var(--bg-panel); padding: 15px; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
         #viewport { flex: 1; position: relative; background: #0f0f0f; outline: none; }
         #right-panel { width: 280px; background: var(--bg-panel); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
         #asset-browser { height: 150px; background: var(--bg-panel); border-top: 1px solid var(--border); padding: 10px 15px; display: flex; flex-direction: column; }
@@ -31,32 +30,32 @@
         .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
         .btn-danger:hover { background: var(--danger); border-color: var(--danger); color: white; }
         .btn-success { background: var(--success); border-color: var(--success); color: white; font-weight: bold; }
-        .btn-success:hover { background: #218838; border-color: #218838; }
         .divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
         h3 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; font-weight: 600; }
         
-        /* === PROPERTIES PANEL === */
+        /* === PROPERTIES === */
         .prop-box { background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; padding: 10px; }
         .prop-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .prop-row:last-child { margin-bottom: 0; }
         .prop-label { color: var(--text-muted); font-size: 11px; flex: 1; }
-        
         select, input[type="text"], .transform-group input { background: #222; border: 1px solid #444; color: white; font-size: 11px; padding: 3px 6px; border-radius: 2px; outline: none; }
         input[type="text"]:focus, .transform-group input:focus { border-color: var(--accent-btn); }
-        input[type="text"] { width: 130px; font-weight: bold; }
         
+        /* FIX: COLOR CODED XYZ INPUTS */
         .transform-group { display: flex; gap: 4px; flex: 2; }
         .transform-group input { width: 100%; text-align: center; border-bottom-width: 2px; }
-        .transform-group input:nth-child(1) { border-bottom-color: #ff4444; }
-        .transform-group input:nth-child(2) { border-bottom-color: #44ff44; }
-        .transform-group input:nth-child(3) { border-bottom-color: #4488ff; }
+        .transform-group input:nth-child(1) { border-bottom-color: #ff4444; } /* Red X */
+        .transform-group input:nth-child(2) { border-bottom-color: #44ff44; } /* Green Y */
+        .transform-group input:nth-child(3) { border-bottom-color: #4488ff; } /* Blue Z */
         
         input[type="range"] { width: 120px; accent-color: var(--accent-btn); }
         input[type="color"] { width: 30px; height: 20px; border: 1px solid #444; background: none; cursor: pointer; padding: 0; border-radius: 2px; }
         input[type="checkbox"] { cursor: pointer; accent-color: var(--accent-btn); width: 16px; height: 16px; }
 
-        /* === EXPLORER === */
-        #explorer-header { padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--bg-toolbar); font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        /* === FPS COUNTER === */
+        #fps-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 4px; color: #44ff44; font-weight: bold; font-size: 12px; pointer-events: none; display: none; z-index: 10; border: 1px solid #333; }
+
+        /* === EXPLORER & ASSETS === */
+        #explorer-header { padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--bg-toolbar); font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: flex; justify-content: space-between; }
         #explorer-tree { flex: 1; overflow-y: auto; padding: 4px 0; user-select: none; }
         .tree-item { padding: 4px 10px; display: flex; align-items: center; cursor: pointer; color: var(--text-main); white-space: nowrap; transition: 0.1s; border: 1px solid transparent; }
         .tree-item:hover { background-color: var(--bg-hover); }
@@ -66,7 +65,6 @@
         .tree-icon svg { width: 14px; height: 14px; }
         .indent { width: 14px; display: inline-block; pointer-events: none; }
 
-        /* === ASSET BROWSER === */
         #file-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         #asset-grid { display: flex; gap: 8px; overflow-x: auto; flex: 1; align-items: center; padding-bottom: 4px; }
         .asset-card { width: 64px; height: 64px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: grab; text-align: center; font-size: 10px; overflow: hidden; padding: 4px; color: var(--text-muted); position: relative; }
@@ -75,10 +73,8 @@
         .asset-card img { max-width: 100%; max-height: 36px; object-fit: contain; margin-bottom: 4px; image-rendering: pixelated; pointer-events: none; }
         .asset-card svg { margin-bottom: 4px; width: 20px; height: 20px; pointer-events: none; }
         .zip-badge { position: absolute; top: 2px; right: 2px; background: var(--accent); color: white; font-size: 8px; padding: 1px 3px; border-radius: 2px; pointer-events: none; }
-        
         .hidden-input { display: none; }
 
-        /* === ZIP POPUP MODAL === */
         #modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
         #zip-modal { background: var(--bg-panel); width: 650px; max-height: 80vh; border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         #zip-header { padding: 12px 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-toolbar); border-radius: 6px 6px 0 0; font-weight: bold; }
@@ -86,11 +82,10 @@
         .zip-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; }
         .zip-item:hover { border-color: #555; }
         .zip-item-name { display: flex; align-items: center; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-        .zip-folder-path { color: #777; font-size: 10px; margin-right: 6px; margin-left: 6px; }
-        .zip-file-name { color: #ddd; font-weight: 500; }
-        .zip-actions { display: flex; gap: 4px; }
+        .zip-folder-path { color: #777; font-size: 10px; margin: 0 6px; }
     </style>
 
+    <!-- Three.js & Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/TransformControls.js"></script>
@@ -114,7 +109,6 @@
 
     <!-- TOP TOOLBAR -->
     <div id="toolbar">
-        <!-- NEW SAVE / LOAD BUTTONS -->
         <button id="btn-save" class="btn-success"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Project</button>
         <button id="btn-load"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Load</button>
         <input type="file" id="load-project-input" class="hidden-input" accept=".studio">
@@ -124,11 +118,12 @@
         <button id="spawn-r6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> R6 Rig</button>
         <button id="spawn-mc"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> MC Rig</button>
         <input type="file" id="mc-skin-input" class="hidden-input" accept="image/png, image/jpeg">
-        <button id="add-light"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg> Light</button>
+        <button id="add-light"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/></svg> Light</button>
         
         <div class="divider"></div>
         <button id="tool-space"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> World Space</button>
         <div class="divider"></div>
+        
         <button id="tool-translate" class="active"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg> Move (1)</button>
         <button id="tool-rotate"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Rotate (2)</button>
         <button id="tool-scale"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Scale (3)</button>
@@ -142,46 +137,44 @@
 
     <!-- MAIN APP AREA -->
     <div id="main-area">
-        <!-- LEFT: PROPERTIES -->
         <div id="left-panel">
+            
+            <!-- INSPECTOR -->
             <div>
                 <h3>Inspector</h3>
                 <div class="prop-box" id="inspector-panel">
                     <div class="prop-row"><span class="prop-label">Name</span> <input type="text" id="prop-name" value="None"></div>
                     <div class="prop-row"><span class="prop-label">Type</span> <span id="prop-type" style="color:#888;">-</span></div>
                     <div style="height: 1px; background: var(--border); margin: 8px 0;"></div>
-                    <div class="prop-row"><span class="prop-label">Pos</span><div class="transform-group"><input type="number" id="pos-x" step="0.1"><input type="number" id="pos-y" step="0.1"><input type="number" id="pos-z" step="0.1"></div></div>
-                    <div class="prop-row"><span class="prop-label">Rot</span><div class="transform-group"><input type="number" id="rot-x" step="1"><input type="number" id="rot-y" step="1"><input type="number" id="rot-z" step="1"></div></div>
-                    <div class="prop-row"><span class="prop-label">Scale</span><div class="transform-group"><input type="number" id="scl-x" step="0.1"><input type="number" id="scl-y" step="0.1"><input type="number" id="scl-z" step="0.1"></div></div>
+                    <div class="prop-row"><span class="prop-label">Pos</span><div class="transform-group"><input type="number" id="pos-x" step="0.1" placeholder="X"><input type="number" id="pos-y" step="0.1" placeholder="Y"><input type="number" id="pos-z" step="0.1" placeholder="Z"></div></div>
+                    <div class="prop-row"><span class="prop-label">Rot</span><div class="transform-group"><input type="number" id="rot-x" step="1" placeholder="X"><input type="number" id="rot-y" step="1" placeholder="Y"><input type="number" id="rot-z" step="1" placeholder="Z"></div></div>
+                    <div class="prop-row"><span class="prop-label">Scale</span><div class="transform-group"><input type="number" id="scl-x" step="0.1" placeholder="X"><input type="number" id="scl-y" step="0.1" placeholder="Y"><input type="number" id="scl-z" step="0.1" placeholder="Z"></div></div>
                 </div>
             </div>
 
+            <!-- SETTINGS -->
             <div>
-                <h3>Material / Texture</h3>
+                <h3>Settings</h3>
                 <div class="prop-box">
-                    <button id="apply-texture-btn" style="width: 100%; border: 1px solid #444;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Upload & Apply Texture</button>
-                    <input type="file" id="texture-input" class="hidden-input" accept="image/*">
-                    <p style="font-size: 10px; color: #888; text-align: center; margin-top: 5px;">You can also Drag & Drop images directly onto objects!</p>
+                    <div class="prop-row"><span class="prop-label" style="color:#44ff44;">Show FPS</span> <input type="checkbox" id="toggle-fps"></div>
+                    <div class="prop-row"><span class="prop-label" style="color:#ffcc00;" title="Lowers resolution and disables shadow updates for massive FPS boost!">Performance Mode</span> <input type="checkbox" id="toggle-perf"></div>
                 </div>
             </div>
 
+            <!-- ENVIRONMENT -->
             <div>
                 <h3>Lighting & Environment</h3>
                 <div class="prop-box">
                     <div class="prop-row" style="margin-bottom: 5px;">
                         <span class="prop-label">Skybox Type</span>
-                        <select id="skybox-shape">
-                            <option value="Sphere">Sphere (Panorama)</option>
-                            <option value="Cube">Cube (Square Box)</option>
-                        </select>
+                        <select id="skybox-shape"><option value="Sphere">Sphere (Panorama)</option><option value="Cube">Cube (Square Box)</option></select>
                     </div>
                     <button id="skybox-btn" style="width: 100%; margin-bottom: 10px; border: 1px solid #444;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Set Skybox Image</button>
                     <input type="file" id="skybox-input" class="hidden-input" accept="image/*">
-                    
                     <div class="prop-row"><span class="prop-label" style="color:white; font-weight:bold;">Show Grid</span> <input type="checkbox" id="toggle-ground" checked></div>
                     <div style="height: 1px; background: var(--border); margin: 8px 0;"></div>
                     
-                    <div class="prop-row"><span class="prop-label" title="Controls shadows cast by the sun">Shadows</span> <input type="checkbox" id="toggle-shadows" checked></div>
+                    <div class="prop-row"><span class="prop-label" title="Controls realistic shading">Shadows</span> <input type="checkbox" id="toggle-shadows" checked></div>
                     <div class="prop-row"><span class="prop-label">Ambient (Sky)</span> <input type="color" id="ambient-color" value="#ffffff"></div>
                     <div class="prop-row"><span class="prop-label">Ambient (Floor)</span> <input type="color" id="ambient-ground-color" value="#444444"></div>
                     <div class="prop-row"><span class="prop-label">Ambient Power</span> <input type="range" id="ambient-intensity" min="0" max="2" step="0.1" value="0.6"></div>
@@ -192,10 +185,10 @@
             </div>
         </div>
 
-        <!-- CENTER: 3D VIEWPORT -->
-        <div id="viewport" tabindex="0"></div>
+        <div id="viewport" tabindex="0">
+            <div id="fps-counter">60 FPS</div>
+        </div>
 
-        <!-- RIGHT: ROBLOX EXPLORER -->
         <div id="right-panel">
             <div id="explorer-header">
                 Explorer
@@ -219,7 +212,7 @@
         const Icons = {
             box: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
             user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-            sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>`,
+            sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/></svg>`,
             image: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
             folder: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`
         };
@@ -227,39 +220,33 @@
         const viewport = document.getElementById('viewport');
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x1a1a1a);
-
         const camera = new THREE.PerspectiveCamera(60, viewport.clientWidth / viewport.clientHeight, 0.1, 1000);
         camera.position.set(0, 4, 8);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
         renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         viewport.appendChild(renderer.domElement);
 
         const orbit = new THREE.OrbitControls(camera, renderer.domElement);
-        orbit.target.set(0, 3, 0); 
-        orbit.enableZoom = false; 
-        orbit.update();
+        orbit.target.set(0, 3, 0); orbit.enableZoom = false; orbit.update();
 
+        // CAMERA MOVEMENT (WASD)
         const keys = { w: false, a: false, s: false, d: false, q: false, e: false, shift: false };
         window.addEventListener('keydown', (e) => {
             if(document.activeElement.tagName === 'INPUT') return; 
-            const k = e.key.toLowerCase();
-            if (keys.hasOwnProperty(k)) keys[k] = true;
+            const k = e.key.toLowerCase(); if (keys.hasOwnProperty(k)) keys[k] = true;
             if (e.key === 'Shift') keys.shift = true;
         });
         window.addEventListener('keyup', (e) => {
-            const k = e.key.toLowerCase();
-            if (keys.hasOwnProperty(k)) keys[k] = false;
+            const k = e.key.toLowerCase(); if (keys.hasOwnProperty(k)) keys[k] = false;
             if (e.key === 'Shift') keys.shift = false;
         });
-
         viewport.addEventListener('wheel', (e) => {
-            const speed = keys.shift ? 0.3 : 1.5;
-            const dir = new THREE.Vector3();
-            camera.getWorldDirection(dir);
+            const speed = keys.shift ? 0.3 : 1.5; const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
             if (e.deltaY < 0) { camera.position.addScaledVector(dir, speed); orbit.target.addScaledVector(dir, speed); } 
             else { camera.position.addScaledVector(dir, -speed); orbit.target.addScaledVector(dir, -speed); }
             orbit.update();
@@ -270,69 +257,54 @@
         transformControl.addEventListener('change', updateInspectorUI); 
         scene.add(transformControl);
 
+        // LIGHTS & SHADOWS
         const gridHelper = new THREE.GridHelper(50, 50, 0x333333, 0x222222);
-        gridHelper.userData.hideOnRender = true; 
-        scene.add(gridHelper);
-        
+        gridHelper.userData.hideOnRender = true; scene.add(gridHelper);
         const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({ opacity: 0.5 }));
-        shadowPlane.rotation.x = -Math.PI / 2;
-        shadowPlane.receiveShadow = true;
-        shadowPlane.userData.isSystem = true;
-        scene.add(shadowPlane);
+        shadowPlane.rotation.x = -Math.PI / 2; shadowPlane.receiveShadow = true; shadowPlane.userData.isSystem = true; scene.add(shadowPlane);
 
-        document.getElementById('toggle-ground').addEventListener('change', (e) => {
-            gridHelper.visible = e.target.checked;
-            shadowPlane.visible = e.target.checked;
-        });
-        
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-        hemiLight.userData = { name: "AmbientLight", type: "Light", icon: "sun", isSystem: true };
-        scene.add(hemiLight);
-        
+        document.getElementById('toggle-ground').addEventListener('change', (e) => { gridHelper.visible = e.target.checked; shadowPlane.visible = e.target.checked; });
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6); hemiLight.userData = { name: "AmbientLight", type: "Light", icon: "sun", isSystem: true }; scene.add(hemiLight);
         const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        dirLight.position.set(10, 20, 10);
-        dirLight.castShadow = true;
+        dirLight.position.set(10, 20, 10); dirLight.castShadow = true;
         dirLight.shadow.mapSize.width = 2048; dirLight.shadow.mapSize.height = 2048;
-        dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 100;
-        dirLight.shadow.camera.left = -20; dirLight.shadow.camera.right = 20; dirLight.shadow.camera.top = 20; dirLight.shadow.camera.bottom = -20;
-        dirLight.shadow.bias = -0.001; 
-        dirLight.userData = { name: "SunLight", type: "Light", icon: "sun", isSystem: true };
-        scene.add(dirLight);
+        dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 100; dirLight.shadow.camera.left = -20; dirLight.shadow.camera.right = 20; dirLight.shadow.camera.top = 20; dirLight.shadow.camera.bottom = -20;
+        dirLight.shadow.bias = -0.001; dirLight.userData = { name: "SunLight", type: "Light", icon: "sun", isSystem: true }; scene.add(dirLight);
 
-        document.getElementById('toggle-shadows').addEventListener('change', (e) => { dirLight.castShadow = e.target.checked; });
+        // SETTINGS (PERF & FPS)
+        let isPerfMode = false;
+        document.getElementById('toggle-shadows').addEventListener('change', (e) => { if(!isPerfMode) dirLight.castShadow = e.target.checked; });
+        document.getElementById('toggle-perf').addEventListener('change', (e) => {
+            isPerfMode = e.target.checked;
+            if(isPerfMode) { renderer.setPixelRatio(0.5); dirLight.castShadow = false; } 
+            else { renderer.setPixelRatio(window.devicePixelRatio); dirLight.castShadow = document.getElementById('toggle-shadows').checked; }
+        });
+
+        const fpsCounter = document.getElementById('fps-counter');
+        document.getElementById('toggle-fps').addEventListener('change', (e) => { fpsCounter.style.display = e.target.checked ? 'block' : 'none'; });
+
         document.getElementById('ambient-color').addEventListener('input', (e) => hemiLight.color.set(e.target.value));
         document.getElementById('ambient-ground-color').addEventListener('input', (e) => hemiLight.groundColor.set(e.target.value));
         document.getElementById('ambient-intensity').addEventListener('input', (e) => hemiLight.intensity = e.target.value);
         document.getElementById('sun-color').addEventListener('input', (e) => dirLight.color.set(e.target.value));
         document.getElementById('sun-intensity').addEventListener('input', (e) => dirLight.intensity = e.target.value);
 
-        // --- CORE LOGIC ---
+        // CORE LOGIC
         let selectedObject = null;
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
+        const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2();
 
         function selectObj(obj) {
             selectedObject = obj;
             if (obj) {
-                if(obj.userData.type !== "Folder") transformControl.attach(obj);
-                else transformControl.detach();
+                if(obj.userData.type !== "Folder") transformControl.attach(obj); else transformControl.detach();
                 document.getElementById('prop-name').value = obj.userData.name || "Object";
                 document.getElementById('prop-type').innerText = obj.userData.type || "Mesh";
                 updateInspectorUI();
-            } else {
-                transformControl.detach();
-                document.getElementById('prop-name').value = "None";
-                document.getElementById('prop-type').innerText = "-";
-            }
+            } else { transformControl.detach(); document.getElementById('prop-name').value = "None"; document.getElementById('prop-type').innerText = "-"; }
             updateExplorer();
         }
 
-        function enableShadows(obj) {
-            obj.traverse((child) => {
-                if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; }
-            });
-        }
-
+        function enableShadows(obj) { obj.traverse((child) => { if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; } }); }
         function addToScene(obj) {
             enableShadows(obj);
             if (selectedObject && (selectedObject.userData.type === 'Folder' || selectedObject.userData.type === 'Model')) selectedObject.add(obj);
@@ -340,10 +312,7 @@
             selectObj(obj); updateExplorer();
         }
 
-        document.getElementById('prop-name').addEventListener('input', (e) => {
-            if(selectedObject && !selectedObject.userData.isSystem) { selectedObject.userData.name = e.target.value; updateExplorer(); }
-        });
-
+        document.getElementById('prop-name').addEventListener('input', (e) => { if(selectedObject && !selectedObject.userData.isSystem) { selectedObject.userData.name = e.target.value; updateExplorer(); } });
         const inputs = ['pos-x','pos-y','pos-z', 'rot-x','rot-y','rot-z', 'scl-x','scl-y','scl-z'].map(id => document.getElementById(id));
         function updateInspectorUI() {
             if (!selectedObject) return;
@@ -351,150 +320,17 @@
             inputs[3].value = THREE.MathUtils.radToDeg(selectedObject.rotation.x).toFixed(1); inputs[4].value = THREE.MathUtils.radToDeg(selectedObject.rotation.y).toFixed(1); inputs[5].value = THREE.MathUtils.radToDeg(selectedObject.rotation.z).toFixed(1);
             inputs[6].value = selectedObject.scale.x.toFixed(2); inputs[7].value = selectedObject.scale.y.toFixed(2); inputs[8].value = selectedObject.scale.z.toFixed(2);
         }
-
         inputs.forEach((input, index) => {
             input.addEventListener('change', () => {
-                if (!selectedObject) return;
-                const val = parseFloat(input.value) || 0;
+                if (!selectedObject) return; const val = parseFloat(input.value) || 0;
                 if (index === 0) selectedObject.position.x = val; if (index === 1) selectedObject.position.y = val; if (index === 2) selectedObject.position.z = val;
                 if (index === 3) selectedObject.rotation.x = THREE.MathUtils.degToRad(val); if (index === 4) selectedObject.rotation.y = THREE.MathUtils.degToRad(val); if (index === 5) selectedObject.rotation.z = THREE.MathUtils.degToRad(val);
                 if (index === 6) selectedObject.scale.x = val; if (index === 7) selectedObject.scale.y = val; if (index === 8) selectedObject.scale.z = val;
             });
         });
 
+        // TEXTURES & SKYBOX
         const textureLoader = new THREE.TextureLoader();
-        
-        function applyTextureToObject(targetObject, imgURL) {
-            textureLoader.load(imgURL, (tex) => {
-                tex.magFilter = THREE.NearestFilter; 
-                targetObject.traverse((child) => {
-                    if (child.isMesh && child.userData.selectable) {
-                        child.material = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff });
-                        child.material.needsUpdate = true;
-                    }
-                });
-            });
-        }
-
-        document.getElementById('apply-texture-btn').onclick = () => {
-            if(!selectedObject) return alert("Select an object to apply a texture to first!");
-            document.getElementById('texture-input').click();
-        };
-        document.getElementById('texture-input').addEventListener('change', (e) => {
-            const file = e.target.files[0]; if(!file || !selectedObject) return;
-            applyTextureToObject(selectedObject, URL.createObjectURL(file));
-            e.target.value = ''; 
-        });
-
-        // --- SAVE / LOAD SYSTEM ---
-        document.getElementById('btn-save').onclick = async () => {
-            const saveBtn = document.getElementById('btn-save');
-            const ogText = saveBtn.innerHTML;
-            saveBtn.innerHTML = "Saving...";
-            
-            try {
-                const settings = {
-                    ambColor: document.getElementById('ambient-color').value,
-                    ambGround: document.getElementById('ambient-ground-color').value,
-                    ambInt: document.getElementById('ambient-intensity').value,
-                    sunColor: document.getElementById('sun-color').value,
-                    sunInt: document.getElementById('sun-intensity').value,
-                    shadows: document.getElementById('toggle-shadows').checked,
-                    grid: document.getElementById('toggle-ground').checked
-                };
-
-                // Temporarily hide System objects from the save file
-                const sysObjects = [];
-                for(let i = scene.children.length - 1; i >= 0; i--) {
-                    const child = scene.children[i];
-                    if(child.userData.isSystem || child === transformControl || child.type === "PerspectiveCamera") {
-                        sysObjects.push(child);
-                        scene.remove(child);
-                    }
-                }
-
-                // Three.js natively converts blocks, geometries, and base64 bakes the textures!
-                const sceneJSON = scene.toJSON();
-
-                // Put system objects back
-                sysObjects.forEach(c => scene.add(c));
-
-                const projectData = { settings, scene: sceneJSON };
-                
-                // Compress via JSZip
-                const zip = new JSZip();
-                zip.file("project.json", JSON.stringify(projectData));
-                const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
-
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = "MyProject.studio";
-                link.click();
-            } catch (err) {
-                console.error(err);
-                alert("Failed to save project. Ensure your browser allows large file processing.");
-            }
-            saveBtn.innerHTML = ogText;
-        };
-
-        document.getElementById('btn-load').onclick = () => document.getElementById('load-project-input').click();
-        document.getElementById('load-project-input').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if(!file) return;
-
-            try {
-                const zip = await JSZip.loadAsync(file);
-                const jsonString = await zip.file("project.json").async("string");
-                const project = JSON.parse(jsonString);
-
-                // Restore UI Lighting Settings
-                const s = project.settings;
-                document.getElementById('ambient-color').value = s.ambColor;
-                document.getElementById('ambient-ground-color').value = s.ambGround;
-                document.getElementById('ambient-intensity').value = s.ambInt;
-                document.getElementById('sun-color').value = s.sunColor;
-                document.getElementById('sun-intensity').value = s.sunInt;
-                document.getElementById('toggle-shadows').checked = s.shadows;
-                document.getElementById('toggle-ground').checked = s.grid;
-                
-                ['ambient-color', 'ambient-ground-color', 'ambient-intensity', 'sun-color', 'sun-intensity', 'toggle-shadows', 'toggle-ground'].forEach(id => {
-                    document.getElementById(id).dispatchEvent(new Event('change'));
-                    document.getElementById(id).dispatchEvent(new Event('input'));
-                });
-
-                // Clear existing user objects
-                selectObj(null);
-                for(let i = scene.children.length - 1; i >= 0; i--) {
-                    const child = scene.children[i];
-                    if(!child.userData.isSystem && child !== transformControl && child.type !== "PerspectiveCamera") {
-                        scene.remove(child);
-                    }
-                }
-
-                // Re-inflate 3D objects
-                const loader = new THREE.ObjectLoader();
-                loader.parse(project.scene, (loadedScene) => {
-                    const objectsToAdd = [...loadedScene.children]; 
-                    objectsToAdd.forEach(child => {
-                        // Ensure Minecraft textures stay pixelated
-                        child.traverse(c => {
-                            if(c.isMesh && c.material && c.material.map) {
-                                c.material.map.magFilter = THREE.NearestFilter;
-                                c.material.needsUpdate = true;
-                            }
-                        });
-                        scene.add(child);
-                    });
-                    updateExplorer();
-                });
-            } catch(err) {
-                console.error(err);
-                alert("Failed to load project file. It may be corrupted or from an older version.");
-            }
-            e.target.value = '';
-        });
-
-        // --- SKYBOX ---
         document.getElementById('skybox-btn').onclick = () => document.getElementById('skybox-input').click();
         document.getElementById('skybox-input').addEventListener('change', (e) => {
             const file = e.target.files[0]; if(!file) return;
@@ -503,16 +339,62 @@
                 const oldSky = scene.getObjectByName('Skybox'); if(oldSky) scene.remove(oldSky);
                 const geo = shape === 'Cube' ? new THREE.BoxGeometry(500, 500, 500) : new THREE.SphereGeometry(500, 60, 40);
                 const skybox = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide }));
-                skybox.name = "Skybox"; skybox.userData = { name: "Skybox", type: "Environment", icon: "image", isSystem: true, hideOnRender: false };
-                scene.add(skybox); updateExplorer();
+                skybox.name = "Skybox"; skybox.userData = { name: "Skybox", type: "Environment", icon: "image", isSystem: true, hideOnRender: false }; scene.add(skybox); updateExplorer();
             }); e.target.value = ''; 
         });
 
-        // --- TOOLS ---
+        // SAVE & LOAD SYSTEM
+        document.getElementById('btn-save').onclick = async () => {
+            const saveBtn = document.getElementById('btn-save'); const ogText = saveBtn.innerHTML; saveBtn.innerHTML = "Saving...";
+            try {
+                const settings = {
+                    ambColor: document.getElementById('ambient-color').value, ambGround: document.getElementById('ambient-ground-color').value, ambInt: document.getElementById('ambient-intensity').value,
+                    sunColor: document.getElementById('sun-color').value, sunInt: document.getElementById('sun-intensity').value,
+                    shadows: document.getElementById('toggle-shadows').checked, grid: document.getElementById('toggle-ground').checked
+                };
+                const sysObjects = [];
+                for(let i = scene.children.length - 1; i >= 0; i--) {
+                    const child = scene.children[i]; if(child.userData.isSystem || child === transformControl || child.type === "PerspectiveCamera") { sysObjects.push(child); scene.remove(child); }
+                }
+                const sceneJSON = scene.toJSON();
+                sysObjects.forEach(c => scene.add(c));
+
+                const projectData = { settings, scene: sceneJSON };
+                const zip = new JSZip(); zip.file("project.json", JSON.stringify(projectData));
+                const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
+                const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "MyProject.studio"; link.click();
+            } catch (err) { alert("Save failed."); }
+            saveBtn.innerHTML = ogText;
+        };
+
+        document.getElementById('btn-load').onclick = () => document.getElementById('load-project-input').click();
+        document.getElementById('load-project-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0]; if(!file) return;
+            try {
+                const zip = await JSZip.loadAsync(file); const jsonString = await zip.file("project.json").async("string"); const project = JSON.parse(jsonString);
+                const s = project.settings;
+                document.getElementById('ambient-color').value = s.ambColor; document.getElementById('ambient-ground-color').value = s.ambGround; document.getElementById('ambient-intensity').value = s.ambInt;
+                document.getElementById('sun-color').value = s.sunColor; document.getElementById('sun-intensity').value = s.sunInt;
+                document.getElementById('toggle-shadows').checked = s.shadows; document.getElementById('toggle-ground').checked = s.grid;
+                ['ambient-color', 'ambient-ground-color', 'ambient-intensity', 'sun-color', 'sun-intensity', 'toggle-shadows', 'toggle-ground'].forEach(id => {
+                    document.getElementById(id).dispatchEvent(new Event('change')); document.getElementById(id).dispatchEvent(new Event('input'));
+                });
+
+                selectObj(null);
+                for(let i = scene.children.length - 1; i >= 0; i--) { const child = scene.children[i]; if(!child.userData.isSystem && child !== transformControl && child.type !== "PerspectiveCamera") scene.remove(child); }
+
+                new THREE.ObjectLoader().parse(project.scene, (loadedScene) => {
+                    [...loadedScene.children].forEach(child => {
+                        child.traverse(c => { if(c.isMesh && c.material && c.material.map) { c.material.map.magFilter = THREE.NearestFilter; c.material.needsUpdate = true; } });
+                        scene.add(child);
+                    }); updateExplorer();
+                });
+            } catch(err) { alert("Failed to load project."); } e.target.value = '';
+        });
+
+        // TOOLS
         const btnTrans = document.getElementById('tool-translate'), btnRot = document.getElementById('tool-rotate'), btnScale = document.getElementById('tool-scale');
-        function setTool(mode, activeBtn) { 
-            transformControl.setMode(mode); [btnTrans, btnRot, btnScale].forEach(b => b.classList.remove('active')); activeBtn.classList.add('active'); 
-        }
+        function setTool(mode, activeBtn) { transformControl.setMode(mode); [btnTrans, btnRot, btnScale].forEach(b => b.classList.remove('active')); activeBtn.classList.add('active'); }
         btnTrans.onclick = () => setTool('translate', btnTrans); btnRot.onclick = () => setTool('rotate', btnRot); btnScale.onclick = () => setTool('scale', btnScale);
         
         let currentSpace = 'world'; const btnSpace = document.getElementById('tool-space');
@@ -527,31 +409,27 @@
         window.addEventListener('keydown', (e) => {
             if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
                 if (e.key === 'Delete' || e.key === 'Backspace') deleteSelected();
-                if (e.key === '1') setTool('translate', btnTrans);
-                if (e.key === '2') setTool('rotate', btnRot);
-                if (e.key === '3') setTool('scale', btnScale);
+                if (e.key === '1') setTool('translate', btnTrans); if (e.key === '2') setTool('rotate', btnRot); if (e.key === '3') setTool('scale', btnScale);
             }
         });
 
         document.getElementById('tool-duplicate').onclick = () => {
-            if (!selectedObject || selectedObject.userData.isSystem) return;
-            const clone = selectedObject.clone();
+            if (!selectedObject || selectedObject.userData.isSystem) return; const clone = selectedObject.clone();
             clone.userData = JSON.parse(JSON.stringify(selectedObject.userData)); clone.userData.name += " (Copy)"; clone.position.x += 1; 
             selectedObject.parent.add(clone); selectObj(clone);
         };
 
-        // --- ADDERS ---
         let folderCount = 1, partCount = 1, lightCount = 1, dummyCount = 1;
         document.getElementById('add-folder').onclick = () => addToScene(Object.assign(new THREE.Group(), {userData: { name: "Folder " + folderCount++, type: "Folder", icon: "folder" }}));
         document.getElementById('add-part').onclick = () => addToScene(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(2,2,2), new THREE.MeshStandardMaterial({color: 0xaaaaaa})), {position: {y:1}, userData: { name: "Part " + partCount++, type: "Mesh", icon: "box", selectable: true }}));
         document.getElementById('add-light').onclick = () => {
             const group = new THREE.Group(); group.userData = { name: "PointLight " + lightCount++, type: "Light", icon: "sun" };
             const light = new THREE.PointLight(0xffffff, 1, 15); light.castShadow = true; 
-            const box = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true }));
-            box.userData = { selectable: true, hideOnRender: true }; group.add(light, box); group.position.y = 3; addToScene(group);
+            const box = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true })); box.userData = { selectable: true, hideOnRender: true }; 
+            group.add(light, box); group.position.y = 3; addToScene(group);
         };
 
-        // --- EXPLORER ---
+        // EXPLORER
         function isDescendant(child, potentialParent) { let current = potentialParent; while (current) { if (current === child) return true; current = current.parent; } return false; }
         function buildTreeHTML(object, parentElement, depth) {
             if (object instanceof THREE.GridHelper || object === transformControl || !object.userData.name) return; 
@@ -560,16 +438,10 @@
             itemDiv.innerHTML = `${indents}<span class="tree-icon">${Icons[object.userData.icon || 'box']}</span> ${object.userData.name}`;
             
             if(!object.userData.isSystem) { itemDiv.setAttribute('draggable', 'true'); itemDiv.ondragstart = (e) => { e.dataTransfer.setData('application/node-uuid', object.uuid); }; }
-            itemDiv.ondragover = (e) => { e.preventDefault(); itemDiv.classList.add('drag-over'); };
-            itemDiv.ondragleave = () => { itemDiv.classList.remove('drag-over'); };
-            itemDiv.ondrop = (e) => {
-                e.preventDefault(); itemDiv.classList.remove('drag-over');
-                const draggedObj = scene.getObjectByProperty('uuid', e.dataTransfer.getData('application/node-uuid'));
-                if (draggedObj && draggedObj !== object && !isDescendant(object, draggedObj)) { object.add(draggedObj); updateExplorer(); }
-            };
+            itemDiv.ondragover = (e) => { e.preventDefault(); itemDiv.classList.add('drag-over'); }; itemDiv.ondragleave = () => { itemDiv.classList.remove('drag-over'); };
+            itemDiv.ondrop = (e) => { e.preventDefault(); itemDiv.classList.remove('drag-over'); const draggedObj = scene.getObjectByProperty('uuid', e.dataTransfer.getData('application/node-uuid')); if (draggedObj && draggedObj !== object && !isDescendant(object, draggedObj)) { object.add(draggedObj); updateExplorer(); } };
             itemDiv.onclick = (e) => { e.stopPropagation(); if(!object.userData.isSystem) selectObj(object); else { selectedObject = object; updateExplorer(); transformControl.detach(); } };
-            parentElement.appendChild(itemDiv);
-            if (object.children) object.children.forEach(child => buildTreeHTML(child, parentElement, depth + 1));
+            parentElement.appendChild(itemDiv); if (object.children) object.children.forEach(child => buildTreeHTML(child, parentElement, depth + 1));
         }
 
         function updateExplorer() {
@@ -580,33 +452,22 @@
             treeRoot.appendChild(ws); scene.children.forEach(child => buildTreeHTML(child, treeRoot, 1));
         }
 
-        function getMCMaterial(tex, x, y, w, h) {
-            const t = tex.clone(); t.needsUpdate = true; t.repeat.set(w / 64, h / 64); t.offset.set(x / 64, (64 - y - h) / 64);
-            return new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.1 });
-        }
+        // RIGS
+        function getMCMaterial(tex, x, y, w, h) { const t = tex.clone(); t.needsUpdate = true; t.repeat.set(w / 64, h / 64); t.offset.set(x / 64, (64 - y - h) / 64); return new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.1 }); }
         function createMCPart(name, width, height, depth, tex, uvCoords, x, y, z, pivotY) {
             const group = new THREE.Group(); group.userData = { name: name, type: "Part", icon: "box" };
-            const mats = uvCoords.map(uv => getMCMaterial(tex, uv[0], uv[1], uv[2], uv[3]));
-            const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), mats);
-            mesh.position.y = pivotY; mesh.userData.selectable = true;
-            group.add(mesh); group.position.set(x, y, z); return group;
+            const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), uvCoords.map(uv => getMCMaterial(tex, uv[0], uv[1], uv[2], uv[3])));
+            mesh.position.y = pivotY; mesh.userData.selectable = true; group.add(mesh); group.position.set(x, y, z); return group;
         }
 
         function buildMCRig(tex) {
             const root = new THREE.Group(); root.userData = { name: "MC Rig " + dummyCount++, type: "Model", icon: "user" };
-            const headUV = [[0,8,8,8], [16,8,8,8], [8,0,8,8], [16,0,8,8], [8,8,8,8], [24,8,8,8]];
-            const torsoUV = [[16,20,4,12], [28,20,4,12], [20,16,8,4], [28,16,8,4], [20,20,8,12], [32,20,8,12]];
-            const rArmUV = [[40,20,4,12], [48,20,4,12], [44,16,4,4], [48,16,4,4], [44,20,4,12], [52,20,4,12]];
-            const rLegUV = [[0,20,4,12], [8,20,4,12], [4,16,4,4], [8,16,4,4], [4,20,4,12], [12,20,4,12]];
-            const lArmUV = [[32,52,4,12], [40,52,4,12], [36,48,4,4], [40,48,4,4], [36,52,4,12], [44,52,4,12]];
-            const lLegUV = [[16,52,4,12], [24,52,4,12], [20,48,4,4], [24,48,4,4], [20,52,4,12], [28,52,4,12]];
-
-            root.add(createMCPart("Head", 1, 1, 1, tex, headUV, 0, 3.5, 0, 0));
-            root.add(createMCPart("Torso", 1, 1.5, 0.5, tex, torsoUV, 0, 2.25, 0, 0));
-            root.add(createMCPart("Right Arm", 0.5, 1.5, 0.5, tex, rArmUV, -0.75, 2.25, 0, -0.75));
-            root.add(createMCPart("Left Arm", 0.5, 1.5, 0.5, tex, lArmUV, 0.75, 2.25, 0, -0.75));
-            root.add(createMCPart("Right Leg", 0.5, 1.5, 0.5, tex, rLegUV, -0.25, 0.75, 0, -0.75));
-            root.add(createMCPart("Left Leg", 0.5, 1.5, 0.5, tex, lLegUV, 0.25, 0.75, 0, -0.75));
+            root.add(createMCPart("Head", 1, 1, 1, tex, [[0,8,8,8], [16,8,8,8], [8,0,8,8], [16,0,8,8], [8,8,8,8], [24,8,8,8]], 0, 3.5, 0, 0));
+            root.add(createMCPart("Torso", 1, 1.5, 0.5, tex, [[16,20,4,12], [28,20,4,12], [20,16,8,4], [28,16,8,4], [20,20,8,12], [32,20,8,12]], 0, 2.25, 0, 0));
+            root.add(createMCPart("Right Arm", 0.5, 1.5, 0.5, tex, [[40,20,4,12], [48,20,4,12], [44,16,4,4], [48,16,4,4], [44,20,4,12], [52,20,4,12]], -0.75, 2.25, 0, -0.75));
+            root.add(createMCPart("Left Arm", 0.5, 1.5, 0.5, tex, [[32,52,4,12], [40,52,4,12], [36,48,4,4], [40,48,4,4], [36,52,4,12], [44,52,4,12]], 0.75, 2.25, 0, -0.75));
+            root.add(createMCPart("Right Leg", 0.5, 1.5, 0.5, tex, [[0,20,4,12], [8,20,4,12], [4,16,4,4], [8,16,4,4], [4,20,4,12], [12,20,4,12]], -0.25, 0.75, 0, -0.75));
+            root.add(createMCPart("Left Leg", 0.5, 1.5, 0.5, tex, [[16,52,4,12], [24,52,4,12], [20,48,4,4], [24,48,4,4], [20,52,4,12], [28,52,4,12]], 0.25, 0.75, 0, -0.75));
             addToScene(root);
         }
 
@@ -614,46 +475,32 @@
             const root = new THREE.Group(); root.userData = { name: "R6 Rig " + dummyCount++, type: "Model", icon: "user" };
             const createR6Limb = (name, w,h,d, col, x,y,z, py) => {
                 const g = new THREE.Group(); g.userData = { name: name, type: "Part", icon: "box" };
-                const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({color: col}));
-                m.position.y = py; m.userData.selectable = true; g.add(m); g.position.set(x,y,z); return g;
+                const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({color: col})); m.position.y = py; m.userData.selectable = true; g.add(m); g.position.set(x,y,z); return g;
             };
             const torso = createR6Limb("Torso", 2,2,1, 0x999999, 0,4,0,0);
-            torso.add(createR6Limb("Head", 1.2,1.2,1.2, 0xdddddd, 0,1.6,0,0));
-            torso.add(createR6Limb("Right Arm", 1,2,1, 0xaaaaaa, -1.5,1,0,-1));
-            torso.add(createR6Limb("Left Arm", 1,2,1, 0xaaaaaa, 1.5,1,0,-1));
-            torso.add(createR6Limb("Right Leg", 1,2,1, 0xaaaaaa, -0.5,-1,0,-1));
-            torso.add(createR6Limb("Left Leg", 1,2,1, 0xaaaaaa, 0.5,-1,0,-1));
+            torso.add(createR6Limb("Head", 1.2,1.2,1.2, 0xdddddd, 0,1.6,0,0)); torso.add(createR6Limb("Right Arm", 1,2,1, 0xaaaaaa, -1.5,1,0,-1)); torso.add(createR6Limb("Left Arm", 1,2,1, 0xaaaaaa, 1.5,1,0,-1));
+            torso.add(createR6Limb("Right Leg", 1,2,1, 0xaaaaaa, -0.5,-1,0,-1)); torso.add(createR6Limb("Left Leg", 1,2,1, 0xaaaaaa, 0.5,-1,0,-1));
             root.add(torso); addToScene(root);
         };
         
         document.getElementById('spawn-mc').onclick = () => document.getElementById('mc-skin-input').click();
         document.getElementById('mc-skin-input').addEventListener('change', (e) => {
-            const file = e.target.files[0]; if (!file) return;
-            textureLoader.load(URL.createObjectURL(file), (tex) => { tex.magFilter = THREE.NearestFilter; buildMCRig(tex); });
-            e.target.value = ''; 
+            const file = e.target.files[0]; if (!file) return; textureLoader.load(URL.createObjectURL(file), (tex) => { tex.magFilter = THREE.NearestFilter; buildMCRig(tex); }); e.target.value = ''; 
         });
 
-        // --- ASSET BROWSER (.glb, .gltf, .obj, images) AND ZIP POPUP ---
-        const fileInput = document.getElementById('hidden-file-input');
-        const assetGrid = document.getElementById('asset-grid');
-        const gltfLoader = new THREE.GLTFLoader();
-        const objLoader = new THREE.OBJLoader(); 
-        const fbxLoader = new THREE.FBXLoader();
-
+        // ASSET BROWSER & ZIPS
+        const fileInput = document.getElementById('hidden-file-input'), assetGrid = document.getElementById('asset-grid'), gltfLoader = new THREE.GLTFLoader(), objLoader = new THREE.OBJLoader(), fbxLoader = new THREE.FBXLoader();
         document.getElementById('upload-btn').onclick = () => fileInput.click();
         
-        const modalBackdrop = document.getElementById('modal-backdrop');
-        const zipContentDiv = document.getElementById('zip-content');
+        const modalBackdrop = document.getElementById('modal-backdrop'), zipContentDiv = document.getElementById('zip-content');
         document.getElementById('close-zip-modal').onclick = () => modalBackdrop.style.display = 'none';
 
         function createAssetCard(fileURL, fileName, isImg, ext, isZipContent = false) {
             const card = document.createElement('div'); card.className = 'asset-card';
-            
             if (isImg) { 
-                card.innerHTML = `<img src="${fileURL}"><span>${fileName}</span>`; 
-                card.draggable = true;
+                card.innerHTML = `<img src="${fileURL}"><span>${fileName}</span>`; card.draggable = true;
                 card.ondragstart = (e) => { e.dataTransfer.setData('application/texture-url', fileURL); e.dataTransfer.setData('application/texture-name', fileName); };
-                card.onclick = () => { if (selectedObject) applyTextureToObject(selectedObject, fileURL); else spawnThick2DPlane(fileURL, fileName); };
+                card.onclick = () => { if (selectedObject) { textureLoader.load(fileURL, (tex) => { tex.magFilter = THREE.NearestFilter; selectedObject.traverse((child) => { if (child.isMesh && child.userData.selectable) { child.material = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff }); child.material.needsUpdate = true; } }); }); } else spawnThick2DPlane(fileURL, fileName); };
             } else {
                 card.innerHTML = `${Icons.box}<span>${fileName}</span>`;
                 card.onclick = () => {
@@ -662,69 +509,28 @@
                         const model = (ext === 'obj' || ext === 'fbx') ? loadedObject : loadedObject.scene;
                         if (ext === 'fbx') model.scale.set(0.01, 0.01, 0.01);
                         const group = new THREE.Group(); group.userData = { name: fileName, type: "Model", icon: "box" };
-                        model.traverse((child) => { 
-                            if (child.isMesh) { child.userData.selectable = true; child.userData.name = child.name || "SubMesh"; child.userData.type = "Mesh"; child.userData.icon = "box"; } 
-                        });
+                        model.traverse((child) => { if (child.isMesh) { child.userData.selectable = true; child.userData.name = child.name || "SubMesh"; child.userData.type = "Mesh"; child.userData.icon = "box"; } });
                         group.add(model); addToScene(group);
                     });
                 };
             }
-            if (isZipContent) card.innerHTML += `<div class="zip-badge">ZIP</div>`;
-            assetGrid.appendChild(card);
+            if (isZipContent) card.innerHTML += `<div class="zip-badge">ZIP</div>`; assetGrid.appendChild(card);
         }
 
         async function scanZipFile(zipData, pathPrefix = "") {
-            const zip = await JSZip.loadAsync(zipData);
-            const files = Object.values(zip.files);
-            let foundSomething = false;
-
+            const zip = await JSZip.loadAsync(zipData); const files = Object.values(zip.files); let foundSomething = false;
             for (const zipEntry of files) {
                 if (zipEntry.dir || zipEntry.name.includes('__MACOSX') || zipEntry.name.includes('.DS_Store')) continue;
-                const fullPath = pathPrefix + zipEntry.name;
-                const cleanName = fullPath.split('/').pop();
-                const folderPath = fullPath.substring(0, fullPath.length - cleanName.length);
-                const ext = cleanName.split('.').pop().toLowerCase();
-
-                if (ext === 'zip') {
-                    const nestedData = await zipEntry.async("arraybuffer");
-                    const nestedFound = await scanZipFile(nestedData, folderPath + cleanName + " / ");
-                    if (nestedFound) foundSomething = true;
-                } 
+                const fullPath = pathPrefix + zipEntry.name; const cleanName = fullPath.split('/').pop(); const folderPath = fullPath.substring(0, fullPath.length - cleanName.length); const ext = cleanName.split('.').pop().toLowerCase();
+                if (ext === 'zip') { const nestedData = await zipEntry.async("arraybuffer"); const nestedFound = await scanZipFile(nestedData, folderPath + cleanName + " / "); if (nestedFound) foundSomething = true; } 
                 else if (['png', 'jpg', 'jpeg', 'glb', 'gltf', 'obj', 'fbx'].includes(ext)) {
-                    foundSomething = true;
-                    const isImg = ['png', 'jpg', 'jpeg'].includes(ext);
-                    const row = document.createElement('div'); row.className = 'zip-item';
-                    
-                    let displayHTML = `<span style="opacity: 0.8; width: 14px;">${isImg ? Icons.image : Icons.box}</span>`;
-                    if (folderPath) displayHTML += `<span class="zip-folder-path">${folderPath}</span>`;
-                    displayHTML += `<span class="zip-file-name">${cleanName}</span>`;
-
-                    let buttonsHTML = '';
-                    if (isImg) buttonsHTML += `<button class="btn-primary apply-btn" style="padding: 2px 8px; margin-right: 5px; background: #007acc; border-color: #007acc;">Apply to Selected</button>`;
+                    foundSomething = true; const isImg = ['png', 'jpg', 'jpeg'].includes(ext); const row = document.createElement('div'); row.className = 'zip-item';
+                    let displayHTML = `<span style="opacity: 0.8; width: 14px;">${isImg ? Icons.image : Icons.box}</span>`; if (folderPath) displayHTML += `<span class="zip-folder-path">${folderPath}</span>`; displayHTML += `<span class="zip-file-name">${cleanName}</span>`;
+                    let buttonsHTML = ''; if (isImg) buttonsHTML += `<button class="btn-primary apply-btn" style="padding: 2px 8px; margin-right: 5px; background: #007acc; border-color: #007acc;">Apply to Selected</button>`;
                     buttonsHTML += `<button class="btn-primary extract-btn" style="padding: 2px 8px;">Extract to Assets</button>`;
-
                     row.innerHTML = `<div class="zip-item-name" title="${fullPath}">${displayHTML}</div><div class="zip-actions">${buttonsHTML}</div>`;
-                    
-                    if (isImg) {
-                        row.querySelector('.apply-btn').onclick = () => {
-                            if(!selectedObject) return alert("Select an object in the 3D window first!");
-                            zipEntry.async('blob').then(function(blob) {
-                                const url = URL.createObjectURL(blob);
-                                applyTextureToObject(selectedObject, url);
-                                createAssetCard(url, cleanName, true, ext, true);
-                                row.querySelector('.apply-btn').innerText = "Applied ✓";
-                                row.querySelector('.apply-btn').style.background = "#28a745"; row.querySelector('.apply-btn').style.borderColor = "#28a745";
-                            });
-                        };
-                    }
-
-                    row.querySelector('.extract-btn').onclick = () => {
-                        zipEntry.async('blob').then(function(blob) {
-                            createAssetCard(URL.createObjectURL(blob), cleanName, isImg, ext, true);
-                            row.querySelector('.extract-btn').innerText = "Extracted ✓";
-                            row.querySelector('.extract-btn').style.background = "#28a745"; row.querySelector('.extract-btn').style.borderColor = "#28a745";
-                        });
-                    };
+                    if (isImg) { row.querySelector('.apply-btn').onclick = () => { if(!selectedObject) return alert("Select an object!"); zipEntry.async('blob').then(function(blob) { const url = URL.createObjectURL(blob); textureLoader.load(url, (tex) => { tex.magFilter = THREE.NearestFilter; selectedObject.traverse((child) => { if (child.isMesh && child.userData.selectable) { child.material = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff }); child.material.needsUpdate = true; } }); }); createAssetCard(url, cleanName, true, ext, true); row.querySelector('.apply-btn').innerText = "Applied ✓"; row.querySelector('.apply-btn').style.background = "#28a745"; row.querySelector('.apply-btn').style.borderColor = "#28a745"; }); }; }
+                    row.querySelector('.extract-btn').onclick = () => { zipEntry.async('blob').then(function(blob) { createAssetCard(URL.createObjectURL(blob), cleanName, isImg, ext, true); row.querySelector('.extract-btn').innerText = "Extracted ✓"; row.querySelector('.extract-btn').style.background = "#28a745"; row.querySelector('.extract-btn').style.borderColor = "#28a745"; }); };
                     zipContentDiv.appendChild(row);
                 }
             }
@@ -735,83 +541,63 @@
             for (let file of event.target.files) {
                 const fileName = file.name.toLowerCase();
                 if (fileName.endsWith('.zip')) {
-                    zipContentDiv.innerHTML = '<span style="color:#888; padding: 10px;">Reading ZIP contents...</span>';
-                    modalBackdrop.style.display = 'flex';
+                    zipContentDiv.innerHTML = '<span style="color:#888; padding: 10px;">Reading ZIP contents...</span>'; modalBackdrop.style.display = 'flex';
                     scanZipFile(file).then(found => {
                         if(zipContentDiv.firstChild && zipContentDiv.firstChild.innerText && zipContentDiv.firstChild.innerText.includes('Reading ZIP')) zipContentDiv.firstChild.remove();
-                        if (!found && zipContentDiv.innerHTML === '') zipContentDiv.innerHTML = '<span style="color:#888; padding: 10px;">No 3D models or images found in this ZIP.</span>';
+                        if (!found && zipContentDiv.innerHTML === '') zipContentDiv.innerHTML = '<span style="color:#888; padding: 10px;">No models/images found in ZIP.</span>';
                     });
-                } else {
-                    const ext = fileName.split('.').pop();
-                    createAssetCard(URL.createObjectURL(file), file.name, file.type.startsWith('image/'), ext, false);
-                }
+                } else { const ext = fileName.split('.').pop(); createAssetCard(URL.createObjectURL(file), file.name, file.type.startsWith('image/'), ext, false); }
             }
         });
 
         function spawnThick2DPlane(imgURL, name) {
             textureLoader.load(imgURL, (texture) => {
-                texture.magFilter = THREE.NearestFilter; 
-                const aspect = texture.image.width / texture.image.height;
-                const group = new THREE.Group(); group.userData = { name: name, type: "Decal", icon: "image" };
-                const texMat = new THREE.MeshStandardMaterial({ map: texture, transparent: true, alphaTest: 0.1 });
-                const edgeMat = new THREE.MeshStandardMaterial({ color: 0x333333 }); 
+                texture.magFilter = THREE.NearestFilter; const aspect = texture.image.width / texture.image.height; const group = new THREE.Group(); group.userData = { name: name, type: "Decal", icon: "image" };
+                const texMat = new THREE.MeshStandardMaterial({ map: texture, transparent: true, alphaTest: 0.1 }); const edgeMat = new THREE.MeshStandardMaterial({ color: 0x333333 }); 
                 const mesh = new THREE.Mesh(new THREE.BoxGeometry(4 * aspect, 4, 0.2), [edgeMat, edgeMat, edgeMat, edgeMat, texMat, texMat]);
                 mesh.userData.selectable = true; group.add(mesh); group.position.set(0, 2, -3); addToScene(group);
             });
         }
 
-        // VIEWPORT DRAG & DROP FOR TEXTURES AND FILES
+        // VIEWPORT DRAG/DROP
         viewport.addEventListener('dragover', (e) => e.preventDefault());
         viewport.addEventListener('drop', (e) => {
             e.preventDefault();
-            const texURL = e.dataTransfer.getData('application/texture-url');
-            const texName = e.dataTransfer.getData('application/texture-name');
+            const texURL = e.dataTransfer.getData('application/texture-url'), texName = e.dataTransfer.getData('application/texture-name');
             if (texURL) {
-                const rect = renderer.domElement.getBoundingClientRect();
-                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1; mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-                raycaster.setFromCamera(mouse, camera);
-                let hit = raycaster.intersectObjects(scene.children, true).find(hit => hit.object.userData.selectable);
-                if (hit) {
-                    textureLoader.load(texURL, (tex) => {
-                        tex.magFilter = THREE.NearestFilter;
-                        hit.object.material = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff });
-                        hit.object.material.needsUpdate = true;
-                    });
-                    selectObj(hit.object.parent); 
-                } else spawnThick2DPlane(texURL, texName);
+                const rect = renderer.domElement.getBoundingClientRect(); mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1; mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera); let hit = raycaster.intersectObjects(scene.children, true).find(hit => hit.object.userData.selectable);
+                if (hit) { textureLoader.load(texURL, (tex) => { tex.magFilter = THREE.NearestFilter; hit.object.material = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff }); hit.object.material.needsUpdate = true; }); selectObj(hit.object.parent); } else spawnThick2DPlane(texURL, texName);
                 return;
             }
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                fileInput.files = e.dataTransfer.files; fileInput.dispatchEvent(new Event('change'));
-            }
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) { fileInput.files = e.dataTransfer.files; fileInput.dispatchEvent(new Event('change')); }
         });
 
-        // Raycasting
+        // RAYCASTING
         viewport.addEventListener('pointerdown', (event) => {
-            viewport.focus(); 
-            const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1; mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            let clicked = raycaster.intersectObjects(scene.children, true).find(hit => hit.object.userData.selectable);
-            if (clicked && !transformControl.dragging) selectObj(clicked.object.parent); 
-            else if (!transformControl.dragging) selectObj(null);
+            viewport.focus(); const rect = renderer.domElement.getBoundingClientRect(); mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1; mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera); let clicked = raycaster.intersectObjects(scene.children, true).find(hit => hit.object.userData.selectable);
+            if (clicked && !transformControl.dragging) selectObj(clicked.object.parent); else if (!transformControl.dragging) selectObj(null);
         });
 
-        document.getElementById('render-btn').onclick = () => {
-            selectObj(null); scene.traverse((c) => { if (c.userData.hideOnRender) c.visible = false; });
-            renderer.render(scene, camera); 
-            const link = document.createElement('a'); link.download = 'Studio_Render.png'; link.href = renderer.domElement.toDataURL("image/png"); link.click();
-            scene.traverse((c) => { if (c.userData.hideOnRender) c.visible = true; });
-        };
+        // RENDER LOOP & FPS
+        document.getElementById('render-btn').onclick = () => { selectObj(null); scene.traverse((c) => { if (c.userData.hideOnRender) c.visible = false; }); renderer.render(scene, camera); const link = document.createElement('a'); link.download = 'Studio_Render.png'; link.href = renderer.domElement.toDataURL("image/png"); link.click(); scene.traverse((c) => { if (c.userData.hideOnRender) c.visible = true; }); };
         window.addEventListener('resize', () => { camera.aspect = viewport.clientWidth / viewport.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(viewport.clientWidth, viewport.clientHeight); });
         
+        let frames = 0, prevTime = performance.now();
         function animate() { 
             requestAnimationFrame(animate); 
-            if(document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
-                const speed = keys.shift ? 0.05 : 0.2;
-                const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
-                const sideDir = new THREE.Vector3().crossVectors(dir, camera.up).normalize();
+            
+            // FPS Counter
+            frames++;
+            const time = performance.now();
+            if (time >= prevTime + 1000) {
+                fpsCounter.innerText = Math.round((frames * 1000) / (time - prevTime)) + " FPS";
+                frames = 0; prevTime = time;
+            }
 
+            if(document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
+                const speed = keys.shift ? 0.05 : 0.2; const dir = new THREE.Vector3(); camera.getWorldDirection(dir); const sideDir = new THREE.Vector3().crossVectors(dir, camera.up).normalize();
                 if (keys.w) { camera.position.addScaledVector(dir, speed); orbit.target.addScaledVector(dir, speed); }
                 if (keys.s) { camera.position.addScaledVector(dir, -speed); orbit.target.addScaledVector(dir, -speed); }
                 if (keys.a) { camera.position.addScaledVector(sideDir, -speed); orbit.target.addScaledVector(sideDir, -speed); }
